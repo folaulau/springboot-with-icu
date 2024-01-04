@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 @Data
@@ -64,5 +65,21 @@ public class User implements Serializable {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+
+    @PrePersist
+    private void preCreate() {
+        if (this.active == null) {
+            this.active = true;
+        }
+
+        if (this.deleted == null) {
+            this.deleted = false;
+        }
+
+        if (this.uuid == null || this.uuid.isEmpty()) {
+            this.uuid = "user-" + UUID.randomUUID().toString();
+        }
+    }
 
 }
