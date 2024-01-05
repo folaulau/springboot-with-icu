@@ -58,6 +58,9 @@ public class User implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
+    @Column(name = "age")
+    private Integer age;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

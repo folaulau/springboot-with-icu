@@ -40,6 +40,7 @@ public class UserDataLoader implements ApplicationRunner {
                             .lastName(lastName)
                             .email(email)
                             .phoneNumber("")
+                    .age((int)(Math.random() * 100))
 
                     .build());
 
