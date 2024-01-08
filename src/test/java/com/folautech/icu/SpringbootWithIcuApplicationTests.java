@@ -46,13 +46,12 @@ class SpringbootWithIcuApplicationTests {
 
             String collationKeyToString = new String(collator.getCollationKey(user.getAge()+"").toByteArray(), StandardCharsets.UTF_16BE);
 
-            System.out.println("collationKeyToString: "+collationKeyToString);
+            System.out.println("collationKeyToString: "+collator.getCollationKey(user.getAge()+"").hashCode());
         }
 
         List<User> copiedUsers = new ArrayList<>();
         for (User obj : users) {
             copiedUsers.add(obj); // Assuming MyObject has a copy constructor
-
         }
 
 		System.out.println("=================");
