@@ -63,4 +63,50 @@ class SpringbootWithIcuApplicationTests {
         }
     }
 
+    @Test
+    void test_hymn_song_titles() throws Exception {
+
+        List<String> songs = new ArrayList<>();
+
+        songs.add("Behold, the Mountain of the Lord");
+        songs.add("Lo, the Mighty God Appearing!");
+        songs.add("All Creatures of Our God and King");
+        songs.add("For All the Saints");
+        songs.add("How Firm a Foundation");
+        songs.add("How Great Thou Art");
+        songs.add("The Spirit of God");
+        songs.add("’Twas Witnessed in the Morning Sky");
+        songs.add("Because I Have Been Given Much");
+        songs.add("Children of Our Heavenly Father");
+        songs.add("Be Still, My Soul");
+        songs.add("Zing");
+
+        RuleBasedCollator collator = (RuleBasedCollator) Collator.getInstance(Locale.US); // Swedish locale
+        collator.setStrength(Collator.QUATERNARY);
+        collator.setAlternateHandlingShifted(true);
+
+        for (String title : songs) {
+//            System.out.println(title);
+
+            long hash = 0;
+            for(String word : title.split(" ")){
+                int h = collator.getCollationKey(word).hashCode();
+                System.out.println("word: "+word+", h: "+h);
+                hash += h;
+            }
+
+            System.out.println("title: "+title+", hascode: "+hash);
+        }
+
+        System.out.println("======= Sorted Songs ==========");
+
+        Collections.sort(songs, (String u1, String u2) -> collator.compare(u1, u2));
+
+        for (String title : songs) {
+//            System.out.println("title: "+title+", hascode: "+collator.getCollationKey(title).hashCode()+", sourceString: "+collator.getCollationKey(title).toString());
+            System.out.println("title: "+title);
+
+        }
+    }
+
 }
