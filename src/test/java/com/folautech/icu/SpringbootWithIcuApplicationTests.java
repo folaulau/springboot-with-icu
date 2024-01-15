@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -44,20 +45,28 @@ class SpringbootWithIcuApplicationTests {
         for (User user : users) {
             System.out.println(user.getFirstName());
 
-            String collationKeyToString = new String(collator.getCollationKey(user.getAge()+"").toByteArray(), StandardCharsets.UTF_16BE);
-
-            System.out.println("collationKeyToString: "+collator.getCollationKey(user.getAge()+"").hashCode());
+//            byte[] sortKey = collator.getCollationKey(user.getFirstName()).toByteArray();
+//            String encodedKey = Base64.getEncoder().encodeToString(sortKey);
+//
+//            System.out.println("collationKeyToString: "+encodedKey);
         }
 
         List<User> copiedUsers = new ArrayList<>();
         for (User obj : users) {
+
+            byte[] sortKey = collator.getCollationKey(obj.getFirstName()).toByteArray();
+            String encodedKey = Base64.getEncoder().encodeToString(sortKey);
+
+            System.out.println("firstName: "+obj.getFirstName()+", encodedKey: "+encodedKey);
+
+            obj.setFirstNameSortedKey(encodedKey);
             copiedUsers.add(obj); // Assuming MyObject has a copy constructor
         }
 
 		System.out.println("=================");
 
-		Collections.sort(copiedUsers, (User u1, User u2) -> collator.compare(u1.getFirstName(), u2.getFirstName()));
-
+		Collections.sort(copiedUsers, (User u1, User u2) -> u1.getFirstNameSortedKey().compareTo(u2.getFirstNameSortedKey()));
+        System.out.println("=========Sorted========");
         for (User user : copiedUsers) {
             System.out.println(user.getFirstName());
         }
@@ -88,14 +97,11 @@ class SpringbootWithIcuApplicationTests {
         for (String title : songs) {
 //            System.out.println(title);
 
-            long hash = 0;
-            for(String word : title.split(" ")){
-                int h = collator.getCollationKey(word).hashCode();
-                System.out.println("word: "+word+", h: "+h);
-                hash += h;
-            }
+            byte[] sortKey = collator.getCollationKey(title).toByteArray();
+            String encodedKey = Base64.getEncoder().encodeToString(sortKey);
+            System.out.println("Title: " + title + ", Sort Key: " + encodedKey);
 
-            System.out.println("title: "+title+", hascode: "+hash);
+//            System.out.println("title: "+title+", encodedKey: "+encodedKey);
         }
 
         System.out.println("======= Sorted Songs ==========");
