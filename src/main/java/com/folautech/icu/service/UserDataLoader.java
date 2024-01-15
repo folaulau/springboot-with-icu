@@ -19,7 +19,7 @@ public class UserDataLoader implements ApplicationRunner {
 
     private Faker faker = new Faker();
 
-    private int numberOfUsers = 5;
+    private int numberOfUsers = 50;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
