@@ -2,6 +2,7 @@ package com.folautech.icu;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Optional;
 
 import com.ibm.icu.text.Collator;
 import org.junit.jupiter.api.Test;
@@ -25,5 +26,46 @@ public class NameSortingTests {
         for (String word : words) {
             System.out.println(word);
         }
+    }
+
+    @Test
+    public void testOptional(){
+
+
+        Integer number = null;
+
+        System.out.println("number? "+Optional.ofNullable(number)
+            .map(n -> !n.equals(1))
+            .orElse(true));
+
+        number = 2;
+
+        System.out.println("number? "+Optional.ofNullable(number)
+            .map(n -> !n.equals(1))
+            .orElse(true));
+
+        number = 1;
+
+        System.out.println("number? "+Optional.ofNullable(number)
+            .map(n -> !n.equals(1))
+            .orElse(true));
+
+        number = null;
+
+        System.out.println("number? "+Optional.ofNullable(number)
+            .filter(n -> n.equals(1))
+            .isPresent());
+
+        number = 2;
+
+        System.out.println("number? "+Optional.ofNullable(number)
+            .filter(n -> n.equals(1))
+            .isPresent());
+
+        number = 1;
+
+        System.out.println("number? "+Optional.ofNullable(number)
+            .filter(n -> n.equals(1))
+            .isPresent());
     }
 }
