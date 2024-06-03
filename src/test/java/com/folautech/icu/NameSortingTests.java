@@ -57,7 +57,7 @@ public class NameSortingTests {
         collator.setAlternateHandlingShifted(true);
 
         for (String word : words) {
-            
+
             byte[] sortKey = collator.getCollationKey(word).toByteArray();
             String encodedKey = Base64.getEncoder().encodeToString(sortKey);
             data.put(encodedKey, word);
